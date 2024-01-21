@@ -5,6 +5,7 @@ import ma.formation.cigma.model.Article;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IdaoImpl implements Idao {
 
@@ -42,11 +43,23 @@ public class IdaoImpl implements Idao {
 
     @Override
     public void addArticle(Article article) {
-
+    database.add(article);
     }
 
     @Override
     public void updateArticle(Integer id, Article article) {
+
+        Article articleFound= getArticleById(id);
+
+        if(articleFound == null){
+            System.out.println("There is no article with this id :"+id);
+        }else {
+
+            database.remove(articleFound);
+            article.setId(id);
+            database.add(article);
+        }
+
 
     }
 
@@ -56,12 +69,53 @@ public class IdaoImpl implements Idao {
     }
 
     @Override
-    public void getArticleById(Integer integer) {
+    public Article getArticleById(Integer id) {
 
-    }
 
-    @Override
-    public List<Article> getArticles() {
+
+   /*
+   Example 1 :
+      1 -   return  database.stream().filter(a -> a.getId().equals(id)).findFirst().orElse(null);
+      2 - make Article Optional<Article>
+    */
+  // Example 2 :
+        for(i=0; i<database.size();i++){
+
+            if (database.get(i).getId().equals(id) ){
+                return database.get(id);
+            }
+        }
         return null;
+
+
+       for (Article a : database){
+           if (a.getId().equals(a)){
+               return  a;
+           }
+       }
     }
+
+    public List<Article> getArticlesByCriteria(String criteria ) {
+
+        return database.stream().filter(a -> a.getDescription().contains(criteria)).collect(Collectors.toList());
+    }
+
+    public List<String> getArticlesByCriteria2(String criteria ) {
+
+        return database.stream().
+                filter(a -> a.getDescription().
+                contains(criteria)).
+                map(a-> a.getDescription())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getArticlesByCriteria3(String criteria ) {
+
+        return database.stream().
+                filter(a -> a.getDescription().
+                        contains(criteria)).
+                map(a-> "["+a.getDescription() +" "+a.getPrice() +"]@" )
+                .collect(Collectors.toList());
+    }
+
 }

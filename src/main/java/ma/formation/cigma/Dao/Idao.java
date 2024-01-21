@@ -12,7 +12,7 @@ public interface Idao {
 
     public void delete(Integer id);
 
-    public void getArticleById(Integer integer);
+    public Article getArticleById(Integer integer);
 
     List<Article>getArticles();
 }

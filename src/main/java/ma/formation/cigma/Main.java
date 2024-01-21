@@ -1,5 +1,6 @@
 package ma.formation.cigma;
 
+import ma.formation.cigma.Functional.Calculator;
 import ma.formation.cigma.model.Article;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -17,6 +18,15 @@ public class Main {
 
         System.out.println(a1.toString());
         System.out.println(a2); // he will call to toString by default
+
+        Calculator sum = (a.b) = a + b;
+        Calculator mul = (a.b) = a * b;
+        Calculator soustr = (a.b) = a - b;
+
+        sum.operator(1,3);
+        mul.operator(1,3);
+        soustr.operator(1,3);
+
 
     }
 }
